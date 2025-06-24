@@ -7,6 +7,9 @@ return {
     require("nvim-tree").setup({
       -- your config here, empty {} means defaults
       -- you can customize things like view, filters, git, etc.
+      filters = {
+        git_ignored = false,
+      },
     })
   end,
 }
