@@ -1,6 +1,8 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
+    rust = { "rustfmt", lsp_formatting = "fallback" },
+    dart = { "dart_format"},
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
@@ -11,5 +13,9 @@ local options = {
   --   lsp_fallback = true,
   -- },
 }
+
+vim.api.nvim_create_user_command("Format", function()
+  require("conform").format { async = true, lsp_fallback = true }
+end, {})
 
 return options

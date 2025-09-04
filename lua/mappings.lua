@@ -12,3 +12,6 @@ vim.keymap.del("i", "<C-h>")
 vim.keymap.del("i", "<C-j>")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+
+map("n", "<C-w>J", "<C-w>J", { desc = "Move window to the bottom" })
+map("n", "<C-w>H", "<C-w>H", { desc = "Move window to the left" })
