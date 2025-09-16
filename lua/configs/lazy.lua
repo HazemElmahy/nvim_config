@@ -2,6 +2,10 @@ return {
   defaults = { lazy = true },
   install = { colorscheme = { "nvchad" } },
 
+  opts = {
+    inlay_hints = {enabled=true},
+  },
+
   ui = {
     icons = {
       ft = "",

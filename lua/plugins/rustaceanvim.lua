@@ -1,19 +1,34 @@
-local bufnr = vim.api.nvim_get_current_buf()
-vim.keymap.set("n", "<leader>a", function()
-  vim.cmd.RustLsp "codeAction" -- supports rust-analyzer's grouping
-  -- or vim.lsp.buf.codeAction() if you don't want grouping.
-end, { silent = true, buffer = bufnr })
-vim.keymap.set(
-  "n",
-  "K", -- Override Neovim's built-in hover keymap with rustaceanvim's hover actions
-  function()
-    vim.cmd.RustLsp { "hover", "actions" }
-  end,
-  { silent = true, buffer = bufnr }
-)
-
 return {
   "mrcjkb/rustaceanvim",
   version = "^6", -- Recommended
-  lazy = false, -- This plugin is already lazy
+  ft = { "rust" }, -- load only for rust
+  config = function()
+    vim.g.rustaceanvim = {
+      server = {
+        settings = {
+          ["rust-analyzer"] = {
+            inlayHints = {
+              enable = true,
+            },
+          },
+        },
+      },
+    }
+
+    -- keymaps, Rust only
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "rust",
+      callback = function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        vim.keymap.set("n", "<leader>a", function()
+          vim.cmd.RustLsp("codeAction")
+        end, { silent = true, buffer = bufnr })
+
+        vim.keymap.set("n", "K", function()
+          vim.cmd.RustLsp({ "hover", "actions" })
+        end, { silent = true, buffer = bufnr })
+      end,
+    })
+  end,
 }
+

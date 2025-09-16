@@ -2,7 +2,8 @@ local options = {
   formatters_by_ft = {
     lua = { "stylua" },
     rust = { "rustfmt", lsp_formatting = "fallback" },
-    dart = { "dart_format"},
+    dart = { "dart_format" },
+    python = { "ruff_format" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
