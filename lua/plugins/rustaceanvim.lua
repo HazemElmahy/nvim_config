@@ -20,15 +20,20 @@ return {
       pattern = "rust",
       callback = function()
         local bufnr = vim.api.nvim_get_current_buf()
-        vim.keymap.set("n", "<leader>a", function()
-          vim.cmd.RustLsp("codeAction")
+        vim.keymap.set({ "n", "v" }, "<leader>a", function()
+          if vim.fn.mode() == "v" or vim.fn.mode() == "V" then
+            -- Visual mode: use '<,'> to pass the selected range
+            vim.cmd "'<,'>RustLsp codeAction"
+          else
+            -- Normal mode
+            vim.cmd "RustLsp codeAction"
+          end
         end, { silent = true, buffer = bufnr })
 
         vim.keymap.set("n", "K", function()
-          vim.cmd.RustLsp({ "hover", "actions" })
+          vim.cmd.RustLsp { "hover", "actions" }
         end, { silent = true, buffer = bufnr })
       end,
     })
   end,
 }
-

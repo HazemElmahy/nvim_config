@@ -1,0 +1,44 @@
+return {
+  "numToStr/Comment.nvim",
+  event = "VeryLazy", -- load when needed
+  config = function()
+    require("Comment").setup {
+      pre_hook = function(ctx)
+        if vim.bo.filetype == "turtle" then
+          return "# %s"
+        end
+        local U = require "Comment.utils"
+
+        local location = nil
+        if ctx.ctype == U.ctype.block then
+          location = require("ts_context_commentstring.utils").get_cursor_location()
+        elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+          location = require("ts_context_commentstring.utils").get_visual_start_location()
+        end
+
+        require("ts_context_commentstring.internal").update_commentstring(location)
+      end,
+      -- optional config
+      toggler = {
+        line = "gcc", -- toggle line comment
+        block = "gbc", -- toggle block comment
+      },
+      opleader = {
+        line = "gc",
+        block = "gb",
+      },
+      mappings = {
+        basic = true, -- enable gcc, gc
+        extra = true, -- enable gco, gcO, gcA
+      },
+    }
+
+    -- Add comment string for turtle files
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "turtle",
+      callback = function()
+        vim.opt_local.commentstring = "# %s"
+      end,
+    })
+  end,
+}

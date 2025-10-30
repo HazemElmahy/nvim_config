@@ -4,8 +4,18 @@ local options = {
     rust = { "rustfmt", lsp_formatting = "fallback" },
     dart = { "dart_format" },
     python = { "ruff_format" },
+    json = { "jq" },
     -- css = { "prettier" },
-    -- html = { "prettier" },
+    xml = { "xmllint" },
+    turtle = { "turtlefmt" },
+  },
+
+  formatters = {
+    turtlefmt = {
+      command = "turtlefmt",
+      args = { "$FILENAME" },
+      stdin = false,
+    },
   },
 
   -- format_on_save = {
